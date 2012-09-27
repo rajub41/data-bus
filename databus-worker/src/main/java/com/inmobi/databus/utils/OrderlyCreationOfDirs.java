@@ -25,6 +25,7 @@ import com.inmobi.databus.utils.CalendarHelper;
  */
 public class OrderlyCreationOfDirs {
 	private static final Log LOG = LogFactory.getLog(OrderlyCreationOfDirs.class);
+	
 	public OrderlyCreationOfDirs() {
 	}
 
@@ -32,8 +33,8 @@ public class OrderlyCreationOfDirs {
    * This method lists all the minute directories for a particular 
    * stream category.
    */
-  public void doRecursiveListing(Path dir, Set<Path> listing, 
-      FileSystem fs) throws IOException {
+  public void doRecursiveListing(Path dir, Set<Path> listing, FileSystem fs) 
+  		throws IOException {
     FileStatus[] fileStatuses = fs.listStatus(dir);
     if (fileStatuses == null || fileStatuses.length == 0) {
       LOG.debug("No files in directory:" + dir);
@@ -41,7 +42,7 @@ public class OrderlyCreationOfDirs {
     } else {
       for (FileStatus file : fileStatuses) {  
         if (file.isDir()) {
-          doRecursiveListing(file.getPath(), listing,  fs);	      
+          doRecursiveListing(file.getPath(), listing, fs);	      
         } else {
           listing.add(file.getPath().getParent());
         }       
@@ -56,11 +57,10 @@ public class OrderlyCreationOfDirs {
    *   for a particular stream
    *  @param outOfOrderDirs : store out of order directories : outOfOrderDirs
    */
-  public void validateOrderlyCreationOfPaths(
-      TreeMap<Date , FileStatus> creationTimeOfFiles, 
-      List<Path> outOfOrderDirs) {
+  public void validateOrderlyCreationOfPaths(TreeMap<Date, FileStatus> 
+  		creationTimeOfFiles, List<Path> outOfOrderDirs) {
     Date previousKeyEntry = null;
-    for (Date presentKeyEntry : creationTimeOfFiles.keySet() ) {
+    for (Date presentKeyEntry : creationTimeOfFiles.keySet()) {
       if (previousKeyEntry != null) {
         if (creationTimeOfFiles.get(previousKeyEntry).getModificationTime()
             > creationTimeOfFiles.get(presentKeyEntry).getModificationTime()) {
@@ -75,31 +75,29 @@ public class OrderlyCreationOfDirs {
   }
 
   public void listingAndValidation(Path streamDir, FileSystem fs, 
-      List<Path> outOfOrderDirs)
-      throws IOException {
-    Set<Path> listing = new HashSet<Path>();
-    TreeMap<Date, FileStatus>creationTimeOfFiles = new TreeMap<Date, 
-        FileStatus >();
-    doRecursiveListing(streamDir, listing, fs);
-    for (Path path :listing) {
-      creationTimeOfFiles.put(CalendarHelper.getDateFromStreamDir(
-          streamDir, path), fs.getFileStatus(path));
-    }
-    validateOrderlyCreationOfPaths(creationTimeOfFiles, outOfOrderDirs);
+      List<Path> outOfOrderDirs) throws IOException {
+  	Set<Path> listing = new HashSet<Path>();
+  	TreeMap<Date, FileStatus>creationTimeOfFiles = new TreeMap<Date, 
+  			FileStatus>();
+  	doRecursiveListing(streamDir, listing, fs);
+  	for (Path path : listing) {
+  		creationTimeOfFiles.put(CalendarHelper.getDateFromStreamDir(
+  				streamDir, path), fs.getFileStatus(path));
+  	}
+  	validateOrderlyCreationOfPaths(creationTimeOfFiles, outOfOrderDirs);
   }
   
   public void getStreamNames(String baseDir, String rootDir, List<String>
   		streamNames) throws Exception {
-  		FileSystem baseDirFs = new Path(rootDir, baseDir).getFileSystem
-  				(new Configuration());
-  		FileStatus[] streamFileStatuses = baseDirFs.listStatus(new Path
-  				(rootDir, baseDir));
-  		for (FileStatus file : streamFileStatuses) {
-  			if (!streamNames.contains(file.getPath().getName())) {
-  				streamNames.add(file.getPath().getName());
-  			}
+  	FileSystem baseDirFs = new Path(rootDir, baseDir).getFileSystem
+  			(new Configuration());
+  	FileStatus[] streamFileStatuses = baseDirFs.listStatus(new Path
+  			(rootDir, baseDir));
+  	for (FileStatus file : streamFileStatuses) {
+  		if (!streamNames.contains(file.getPath().getName())) {
+  			streamNames.add(file.getPath().getName());
   		}
-  	
+  	}
   }
   
   public void getBaseDirs(String baseDirArg, List<String> baseDirs) {
@@ -124,9 +122,6 @@ public class OrderlyCreationOfDirs {
   						streamNames));
   			}
   		}
-  		if (outoforderdirs.isEmpty()) {
-  			System.out.println("There are no out of order dirs");
-  		} 
   	} else if (args.length == 2) {
   		getBaseDirs(args[1], baseDirs);
   		for (String rootDir : rootDirs) {
@@ -137,9 +132,6 @@ public class OrderlyCreationOfDirs {
   						streamNames));
   			}
   		}
-  		if (outoforderdirs.isEmpty()) {
-  			System.out.println("There are no out of order dirs");
-  		} 
   	} else if (args.length == 3) {
   		getBaseDirs(args[1], baseDirs);
   		streamNames = new ArrayList<String>();
@@ -152,9 +144,9 @@ public class OrderlyCreationOfDirs {
   						streamNames));
   			}
   		}
-  		if (outoforderdirs.isEmpty()) {
-  			System.out.println("There are no out of order dirs");
-  		} 
+  	} 
+  	if (outoforderdirs.isEmpty()) {
+  		System.out.println("There are no out of order dirs");
   	} 
   	return outoforderdirs;
   }

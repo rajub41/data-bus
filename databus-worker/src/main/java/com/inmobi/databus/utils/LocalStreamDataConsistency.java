@@ -164,8 +164,13 @@ public class LocalStreamDataConsistency {
 	}
 
 	public void listingAllPaths(String rootDir, String streamName, String 
+<<<<<<< HEAD
 			collectorName, TreeMap<String, Path> listOfDataTrashFiles, TreeMap<String,
 					Path> listOfLocalFiles) throws Exception {
+=======
+			collectorName, TreeMap<String, Path> listOfDataTrashFiles, TreeMap<String, Path> 
+					listOfLocalFiles) throws Exception {
+>>>>>>> 2e5a22c... local stream data consistency
 		Path pathName;
 		FileSystem fs;
 		pathName = new Path(new Path(new Path (rootDir, "data"), streamName), 
@@ -178,8 +183,13 @@ public class LocalStreamDataConsistency {
 	}
 
 	public void processing(String rootDir, String streamName, List<String> 
+<<<<<<< HEAD
 			collectorNames, TreeMap<String, Path> listOfDataTrashFiles, TreeMap<String,
 					Path> listOfLocalFiles) throws Exception {
+=======
+			collectorNames, TreeMap<String, Path> listOfDataTrashFiles, TreeMap<String, Path>
+					listOfLocalFiles) throws Exception {
+>>>>>>> 2e5a22c... local stream data consistency
 		for (String collectorName : collectorNames) {
 			listingAllPaths(rootDir, streamName, collectorName, listOfDataTrashFiles,
 					listOfLocalFiles);

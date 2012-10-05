@@ -237,8 +237,6 @@ public class TestLocalStreamDataConsistency {
 				"tmp/test/" + className + "/2/"), ("consistentData,missingFiles," +
 						"dataReplayFiles,extraFiles"), "collector1"};
 		checkDataConsistency(allStreamPaths, inconsistentdata, arg, obj);
-
 	}
-
 }
 

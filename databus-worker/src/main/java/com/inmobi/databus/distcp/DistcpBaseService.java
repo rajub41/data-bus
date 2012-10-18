@@ -171,6 +171,7 @@ public abstract class DistcpBaseService extends AbstractService {
   protected Path getDistCPInputFile(Map<Path, FileSystem> consumePaths,
                                     Path tmp) throws IOException {
     Path input = getInputPath();
+    LOG.info("added input path in ditscp" + input);
     if (!srcFs.exists(input))
       return null;
     //find all consumePaths which need to be pulled

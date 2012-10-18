@@ -131,6 +131,7 @@ public class TestMergedStreamService extends MergedStreamService
             FileStatus[] filePaths = fs.listStatus(minutedir.getPath());
             for (FileStatus filePath : filePaths) {
               commitPaths.add(filePath.getPath().getName());
+              LOG.info("added filename " + filePath.getPath().getName());
             }
           }
           
